@@ -1,29 +1,37 @@
 #include "sqlite_connection.h"
 #include "sqlite_query.h"
+
 #include <iostream>
+
+#define CHECK_RESULT()\
+	if (!result) { \
+		std::cerr << result.error() << std::endl; \
+		return false; \
+	}
 
 bool test_sqlite()
 {
 	sqlite_connection conn("/tmp/db");
 
-	auto result = conn.execute(R"SQL(
-		drop table if exists test;
-		create table if test(
+	auto result = conn.execute("drop table if exists test");
+	CHECK_RESULT();
+
+	conn.execute(R"SQL(
+		create table test(
 			id integer primary key autoincrement,
 			field1 text,
 			field2 text
 		)
 	)SQL");
-	if (!result)
-		return false;
+	CHECK_RESULT();
 
 	result = conn.execute("insert into test(field1,field2) values('1', '2')");
-	if (!result)
-		return false;
+	CHECK_RESULT();
+
+	result = conn.execute("select field1,field2 from test");
+	CHECK_RESULT();
 
 	int rowCount = 0;
-
-	result = conn.execute("select * from test");
 	for (; result.has_next(); result.next())
 	{
 		if (result.data(0).to_int() != 1)

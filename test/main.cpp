@@ -2,5 +2,7 @@
 
 int main()
 {
-	test_sqlite();
+	// TODO: use google test
+	if (!test_sqlite())
+		return 1;
 }
