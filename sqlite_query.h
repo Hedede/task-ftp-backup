@@ -30,9 +30,9 @@ public:
 private:
 	friend sqlite_connection;
 
-	explicit sqlite_query(sqlite3_stmt* stmt);
+	explicit sqlite_query(sqlite3* db, std::string_view query);
 
-	sqlite3_stmt* _stmt;
+	sqlite3_stmt* _stmt = nullptr;
 	int           _status;
 };
 

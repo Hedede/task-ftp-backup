@@ -28,6 +28,8 @@ public:
 	/*!
 	 * \brief Execute an SQL query.
 	 * \param query String containing the SQL query.
+	 * \note Supports only single statement queries.
+	 *       Only the first statement will be executed, the rest ignored.
 	 */
 	sqlite_query execute(std::string_view query);
 

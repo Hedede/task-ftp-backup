@@ -4,10 +4,14 @@
 
 #include <sqlite3.h>
 
-sqlite_query::sqlite_query(sqlite3_stmt* stmt)
-	: _stmt(stmt)
-	, _status(sqlite3_step( stmt ))
+sqlite_query::sqlite_query(sqlite3* db, std::string_view query)
 {
+	// TODO: support for multiple statements
+	auto begin = query.data();
+
+	_status = sqlite3_prepare_v2( db, begin, query.size(), &_stmt, &begin);
+	if (_status == SQLITE_OK)
+		_status = sqlite3_step(_stmt);
 
 }
 
@@ -73,7 +77,10 @@ bool sqlite_query_data::is_valid() const
 
 std::string sqlite_query_data::to_string() const
 {
-	return reinterpret_cast<const char*>(sqlite3_column_text( _stmt, _index ));
+	const auto string = sqlite3_column_text( _stmt, _index );
+	// unsigned char -> char aliasing is allowed, so
+	// use reinterpret_cast here to avoid manually copying the data
+	return reinterpret_cast<const char*>(string);
 }
 
 int sqlite_query_data::to_int() const
