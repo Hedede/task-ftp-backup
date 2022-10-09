@@ -17,19 +17,12 @@ static const std::string& coalesce(const std::string& parameter, const std::stri
 	return parameter.empty() ? default_value : parameter;
 }
 
-ftp_control_connection::ftp_control_connection(const ftp_connection_parameters& parameters)
+ftp_control_connection::ftp_control_connection(const std::string& host, const std::string port)
 	: _socket(
-		coalesce(parameters.host, "localhost"),
-		coalesce(parameters.port, "21")
+		coalesce(host, "localhost"),
+		coalesce(port, "21")
 	)
 {
-	const auto result = receive_response();
-	if (result.code == 220)
-	{
-		authorize(parameters.user, parameters.password);
-	}
-
-	// TODO: handle unexpected response
 }
 
 void ftp_control_connection::send_command(std::string_view command, std::string_view parameter)
@@ -67,18 +60,3 @@ ftp_control_connection::response ftp_control_connection::receive_response()
 	};
 }
 
-// TODO: maybe move to the ftp_client?
-void ftp_control_connection::authorize(const std::string& user, const std::string& password)
-{
-	// When no password supplied, try anonymous login
-	send_command("USER", password.empty() ? "anonymous" : user);
-
-	const auto result = receive_response();
-	if (result.code == 331)
-	{
-		// "Guest login ok, type your name as password."
-		send_command("PASS", password.empty() ? user : password);
-	}
-
-	const auto re = receive_response();
-}

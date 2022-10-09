@@ -1,4 +1,9 @@
 
+option(FTP_DEBUG "debug FTP client" OFF)
+if(FTP_DEBUG)
+	add_definitions(-DFTP_DEBUG)
+endif()
+
 add_library(ftp-backup-lib STATIC
 	database/sqlite3_fwd.h
 	database/sqlite_connection.h
