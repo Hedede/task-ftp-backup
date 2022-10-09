@@ -15,9 +15,9 @@ class sqlite_query {
 public:
 	~sqlite_query();
 
-	sqlite_query(sqlite_query&& other);
+	sqlite_query(sqlite_query&& other) noexcept;
 
-	sqlite_query& operator=(sqlite_query&& other);
+	sqlite_query& operator=(sqlite_query&& other) noexcept;
 
 	//! Signifies if the query was susccessful or not
 	explicit operator bool() const;
@@ -27,13 +27,19 @@ public:
 
 	sqlite_query_data data(int index) const;
 
+	std::string_view error() const { return _error; }
+
 private:
 	friend sqlite_connection;
 
 	explicit sqlite_query(sqlite3* db, std::string_view query);
 
+	void move_from(sqlite_query& other);
+
+	sqlite3*      _db   = nullptr;
 	sqlite3_stmt* _stmt = nullptr;
 	int           _status;
+	std::string   _error;
 };
 
 

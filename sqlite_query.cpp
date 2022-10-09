@@ -5,6 +5,7 @@
 #include <sqlite3.h>
 
 sqlite_query::sqlite_query(sqlite3* db, std::string_view query)
+	: _db(db)
 {
 	// TODO: support for multiple statements
 	auto begin = query.data();
@@ -12,9 +13,10 @@ sqlite_query::sqlite_query(sqlite3* db, std::string_view query)
 	_status = sqlite3_prepare_v2( db, begin, query.size(), &_stmt, &begin);
 	if (_status == SQLITE_OK)
 		_status = sqlite3_step(_stmt);
+	else
+		_error = sqlite3_errmsg(db);
 
 }
-
 sqlite_query::~sqlite_query()
 {
 	// No need to check for nullptr because
@@ -22,19 +24,26 @@ sqlite_query::~sqlite_query()
 	sqlite3_finalize(_stmt);
 }
 
-sqlite_query::sqlite_query(sqlite_query&& other)
+sqlite_query::sqlite_query(sqlite_query&& other) noexcept
 {
-	_stmt   = std::exchange(other._stmt, nullptr);
-	_status = std::exchange(other._status, SQLITE_DONE);
+	move_from(other);
 }
 
-sqlite_query& sqlite_query::operator=(sqlite_query&& other)
+sqlite_query& sqlite_query::operator=(sqlite_query&& other) noexcept
 {
 	sqlite3_finalize(_stmt);
-	_stmt   = std::exchange(other._stmt, nullptr);
-	_status = std::exchange(other._status, SQLITE_DONE);
+	move_from(other);
 	return *this;
 }
+
+void sqlite_query::move_from(sqlite_query& other)
+{
+	_db     = other._db;
+	_stmt   = std::exchange(other._stmt, nullptr);
+	_status = std::exchange(other._status, SQLITE_DONE);
+	_error  = std::exchange(other._error, {});
+}
+
 
 sqlite_query::operator bool() const
 {
@@ -50,6 +59,10 @@ bool sqlite_query::has_next() const
 bool sqlite_query::next()
 {
 	_status = sqlite3_step( _stmt );
+	// Here we check only for SQLITE_ERROR because SQLITE_MISUSE
+	// means query was invalid and we want to keep previous error message
+	if (_status == SQLITE_ERROR)
+		_error = sqlite3_errmsg(_db);
 	return has_next();
 }
 

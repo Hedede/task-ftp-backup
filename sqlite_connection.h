@@ -2,14 +2,7 @@
 
 #include <string>
 
-extern "C" {
-typedef struct sqlite3 sqlite3;
-}
-
-struct sqlite_error {
-	const char* msg;
-	int         code;
-};
+#include "sqlite3_fwd.h"
 
 class sqlite_query;
 
@@ -22,8 +15,6 @@ public:
 
 	sqlite_connection(const sqlite_connection& other) = delete;
 	sqlite_connection& operator=(const sqlite_connection& other) = delete;
-
-	sqlite_error last_error();
 
 	/*!
 	 * \brief Execute an SQL query.

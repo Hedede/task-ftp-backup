@@ -9,14 +9,6 @@ sqlite_connection::sqlite_connection(const std::string& path)
 	sqlite3_open( path.data(), &_db );
 }
 
-sqlite_error sqlite_connection::last_error()
-{
-	return {
-		sqlite3_errmsg( _db ),
-		sqlite3_errcode( _db )
-	};
-}
-
 sqlite_connection::~sqlite_connection()
 {
 	sqlite3_close( _db );
