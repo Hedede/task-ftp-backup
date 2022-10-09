@@ -12,9 +12,14 @@ add_library(ftp-backup-lib STATIC
 	sqlite_query.h
 	sqlite_query.cpp
 	sqlite_query_builder.h
-	sqlite_query_builder.cpp)
+	lib/network/tcp_socket.h
+	lib/network/tcp_socket.cpp)
 
-target_include_directories(ftp-backup-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ftp-backup-lib
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}
+		${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
 
 
 add_executable(ftp-backup
