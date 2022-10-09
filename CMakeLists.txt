@@ -11,6 +11,8 @@ add_library(ftp-backup-lib STATIC
 	lib/database/sqlite_connection.cpp
 	lib/database/sqlite_query.h
 	lib/database/sqlite_query.cpp
+	lib/database/data_generator.h
+	lib/database/data_generator.cpp
 	lib/utility/format.h
 	lib/ftp/ftp_connection_parameters.h
 	lib/ftp/ftp_client.h
@@ -28,6 +30,7 @@ target_include_directories(ftp-backup-lib
 
 
 add_executable(ftp-backup
+	app/random_data.h
 	main.cpp)
 
 target_link_libraries(ftp-backup
