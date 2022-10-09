@@ -1,5 +1,5 @@
-#include "sqlite_connection.h"
-#include "sqlite_query.h"
+#include "database/sqlite_connection.h"
+#include "database/sqlite_query.h"
 
 #include <stdexcept>
 

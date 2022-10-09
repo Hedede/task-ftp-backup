@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(ftp-backup-lib STATIC
-	sqlite3_fwd.h
-	sqlite_connection.h
-	sqlite_connection.cpp
-	sqlite_query.h
-	sqlite_query.cpp
+	lib/database/sqlite3_fwd.h
+	lib/database/sqlite_connection.h
+	lib/database/sqlite_connection.cpp
+	lib/database/sqlite_query.h
+	lib/database/sqlite_query.cpp
 	lib/utility/format.h
 	lib/ftp/ftp_connection_parameters.h
 	lib/ftp/ftp_client.h
