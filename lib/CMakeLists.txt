@@ -10,6 +10,8 @@ add_library(ftp-backup-lib STATIC
 	database/query_builder.h
 	database/query_builder.cpp
 	utility/format.h
+	utility/command_line_parser.h
+	utility/command_line_parser.cpp
 	ftp/ftp_connection_parameters.h
 	ftp/ftp_client.h
 	ftp/ftp_client.cpp

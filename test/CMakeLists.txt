@@ -1,5 +1,6 @@
 add_executable(ftp-backup-test
 	main.cpp
+	utility/test_cmd_parser.h
 	ftp/test_ftp.h
 	network/test_socket.h
 	database/test_query_builder.h
