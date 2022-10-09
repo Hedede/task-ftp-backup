@@ -14,6 +14,7 @@ public:
 	~ftp_client();
 
 	void send_data(const std::string& path, const std::string& data);
+	void send_file(const std::string& path, const std::string& file);
 
 private:
 	std::unique_ptr<ftp_control_connection> _control;

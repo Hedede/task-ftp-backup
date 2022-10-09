@@ -4,6 +4,8 @@
 
 #include "utility/format.h"
 
+#include <fstream>
+
 [[noreturn]] static void throw_error(std::string message)
 {
 	throw std::runtime_error( message );
@@ -99,6 +101,31 @@ void ftp_client::send_data(const std::string& path, const std::string& data)
 		_control->receive_response();
 
 		data_socket.send(data);
+	}
+	_control->receive_response();
+}
+
+void ftp_client::send_file(const std::string& path, const std::string& file_path)
+{
+	std::ifstream file;
+	file.open(file_path);
+	if (!file.is_open())
+		throw_error("Could not open the file specified: " + file_path);
+
+	_control->send_command("PASV");
+
+	const auto conn = parse_passive_connection_parameters(_control->receive_response().text);
+	{
+		tcp_socket data_socket(conn.ip, conn.port);
+
+		_control->send_command("STOR", path);
+		_control->receive_response();
+
+		std::vector<char> chunk(1024);
+		while (!file.eof()) {
+			file.read(chunk.data(), chunk.size());
+			data_socket.send(std::string_view(chunk.data(), file.gcount()));
+		}
 	}
 	_control->receive_response();
 }
