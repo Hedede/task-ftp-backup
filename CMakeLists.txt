@@ -12,6 +12,7 @@ add_library(ftp-backup-lib STATIC
 	sqlite_query.h
 	sqlite_query.cpp
 	lib/utility/format.h
+	lib/ftp/ftp_connection_parameters.h
 	lib/ftp/ftp_client.h
 	lib/ftp/ftp_client.cpp
 	lib/ftp/ftp_control_connection.h

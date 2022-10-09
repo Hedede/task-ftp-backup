@@ -67,6 +67,7 @@ ftp_control_connection::response ftp_control_connection::receive_response()
 	};
 }
 
+// TODO: maybe move to the ftp_client?
 void ftp_control_connection::authorize(const std::string& user, const std::string& password)
 {
 	// When no password supplied, try anonymous login

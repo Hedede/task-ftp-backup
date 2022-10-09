@@ -82,7 +82,11 @@ std::string_view tcp_socket::receive()
 
 void tcp_socket::send(std::string_view message)
 {
-	int err = write(_fd, message.data(), message.size());
-	if (err == -1)
-		throw_error("write");
+	do {
+		int res = write(_fd, message.data(), message.size());
+		if (res == -1)
+			throw_error("write");
+
+		message.remove_prefix(res);
+	} while(!message.empty());
 }
