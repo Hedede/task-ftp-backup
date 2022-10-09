@@ -11,3 +11,4 @@ add_executable(ftp-backup
 install(TARGETS ftp-backup
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
+add_subdirectory(test)
