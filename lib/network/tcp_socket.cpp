@@ -17,7 +17,7 @@
 #include <stdexcept>
 #include <memory>
 
-[[noreturn]] void throw_error(std::string where)
+[[noreturn]] static void throw_error(std::string where)
 {
 	throw std::runtime_error( where + ": " + strerror(errno) );
 }

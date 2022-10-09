@@ -1,13 +1,11 @@
 #include "sqlite_connection.h"
 #include "sqlite_query.h"
 
-#include <iostream>
+#include <stdexcept>
 
-#define CHECK_RESULT()\
-	if (!result) { \
-		std::cerr << result.error() << std::endl; \
-		return false; \
-	}
+#define CHECK_RESULT() \
+	if (!result) \
+		throw std::runtime_error(std::string(result.error()));
 
 bool test_sqlite()
 {
