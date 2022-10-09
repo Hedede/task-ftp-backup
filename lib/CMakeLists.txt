@@ -24,3 +24,8 @@ target_include_directories(ftp-backup-lib
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_link_libraries(ftp-backup-lib
+	PUBLIC
+		sqlite3)
+

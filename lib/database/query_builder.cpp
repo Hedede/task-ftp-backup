@@ -28,9 +28,16 @@ auto query_builder::insert_query::add_row(const std::vector<std::string>& fields
 {
 	// Wrap the value in ''
 	static const auto add = [] (auto& sink, std::string value) {
-		sink += '\'';
-		sink += value;
-		sink += '\'';
+		if (value.empty())
+		{
+			sink += "NULL";
+		}
+		else
+		{
+			sink += '\'';
+			sink += value;
+			sink += '\'';
+		}
 	};
 
 	if (!_values.empty())
@@ -60,5 +67,25 @@ std::string query_builder::make_select_query() const
 	result += join(_table.fields);
 	result += " from ";
 	result += _table.name;
+	return result;
+}
+
+std::string query_builder::make_create_query(bool if_not_exists) const
+{
+	// TODO: add support for different types
+	static const auto add = [] (auto& sink, std::string value) {
+		sink += value;
+		sink += ' ';
+		sink += "text";
+	};
+
+	std::string result = "create table ";
+	if (if_not_exists)
+		result += "if not exists ";
+	result += _table.name;
+	result += '(';
+	result += "id integer primary key autoincrement,";
+	result += join(_table.fields, add);
+	result += ')';
 	return result;
 }

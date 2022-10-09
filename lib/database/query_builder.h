@@ -8,7 +8,6 @@ struct table_description {
 	std::vector<std::string> fields;
 };
 
-
 class query_builder
 {
 public:
@@ -35,9 +34,13 @@ public:
 		std::string _values;
 	};
 
+	// TODO: add "columns" parameters to insert only specified columns
+
 	insert_query make_insert_query() const { return insert_query(_table); }
 
 	std::string make_select_query() const;
+
+	std::string make_create_query(bool if_not_exists = false) const;
 
 private:
 	table_description _table;
