@@ -75,7 +75,10 @@ auto command_line_parser::parse_argv(int argc, char** argv) const -> parse_resul
 std::string command_line_parser::format_help_string(std::string_view description) const
 {
 	std::string result(description);
+	if (!result.empty())
+		result += "\n\n";
 
+	result += "Usage:\n";
 	for (const auto& [_,option] : _options)
 	{
 		if (!isprint(option.symbol))
@@ -85,6 +88,7 @@ std::string command_line_parser::format_help_string(std::string_view description
 		result += ": ";
 		// TODO: Split description into multiple lines if it is too long
 		result += option.description;
+		result += '\n';
 	}
 
 	return result;

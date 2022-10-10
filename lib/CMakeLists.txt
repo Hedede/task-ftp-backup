@@ -34,3 +34,9 @@ target_link_libraries(ftp-backup-lib
 	PUBLIC
 		sqlite3)
 
+if (UNIX)
+	find_package(fmt)
+	target_link_libraries(ftp-backup-lib
+		PUBLIC
+			fmt::fmt)
+endif()

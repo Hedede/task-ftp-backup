@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <unordered_set>
 
 /*!
  * \brief The option structure describes a command line option.
@@ -45,6 +44,13 @@ public:
 		 * Everything that goes after '--' is considered a positional parameter.
 		 */
 		std::vector<std::string_view> positional_parameters;
+
+		std::string arg(char option, std::string_view default_value = {}) const
+		{
+			const auto it = options.find(option);
+			const auto value = it == options.end() ? default_value : it->second;
+			return std::string(value);
+		}
 	};
 
 	/*!

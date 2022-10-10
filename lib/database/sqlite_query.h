@@ -27,6 +27,10 @@ public:
 
 	sqlite_query_data data(int index) const;
 
+	/*!
+	 * \brief Retrieve description of the last error.
+	 * \return Last error description. Always zero-terminated.
+	 */
 	std::string_view error() const { return _error; }
 
 private:

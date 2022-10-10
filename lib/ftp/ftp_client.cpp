@@ -19,6 +19,9 @@ ftp_client::ftp_client(const ftp_connection_parameters& parameters)
 	_control->receive_response();
 
 	authorize(parameters.user, parameters.password);
+
+	// Switch to binary mode
+	_control->send_command_with_reply("TYPE", "I");
 }
 
 ftp_client::~ftp_client()
