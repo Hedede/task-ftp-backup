@@ -3,9 +3,28 @@
 #include <string>
 #include <vector>
 
+enum class table_field_properties {
+	no_properties   = 0x0,
+	primary_key     = 0x1,
+	auto_increment  = 0x2,
+};
+
+// TODO: use to_underlying
+inline table_field_properties operator|(table_field_properties lhs, table_field_properties rhs)
+{
+	return table_field_properties(unsigned(lhs)|unsigned(rhs));
+}
+
+inline table_field_properties operator&(table_field_properties lhs, table_field_properties rhs)
+{
+	return table_field_properties(unsigned(lhs)&unsigned(rhs));
+}
+
+
 struct table_field {
 	std::string name;
 	std::string type;
+	table_field_properties properies = table_field_properties::no_properties;
 };
 
 struct table_description {
@@ -20,6 +39,9 @@ public:
 		: _table(table)
 	{
 	}
+
+	query_builder(const query_builder& other) = default;
+	query_builder& operator=(const query_builder& other) = default;
 
 	class insert_query {
 	public:

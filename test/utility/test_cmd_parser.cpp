@@ -2,7 +2,9 @@
 
 #include "utility/command_line_parser.h"
 
-bool test_cmd_parser()
+#include <gtest/gtest.h>
+
+TEST(TestCmdParser, mixed_test)
 {
 	command_line_parser parser({
 		{ 'h', "show help message", false },
@@ -30,18 +32,10 @@ bool test_cmd_parser()
 
 	auto result = parser.parse_argv(argv.size(), argv.data());
 
-	if (result.options.size() != 2)
-		return false;
-	if (result.positional_parameters.size() != 2)
-		return false;
-	if (result.options['o'] != "file")
-		return false;
-	if (result.options['i'] != "file")
-		return false;
-	if (result.positional_parameters[0] != "+test")
-		return false;
-	if (result.positional_parameters[1] != "-test")
-		return false;
-
-	return true;
+	EXPECT_EQ(result.options.size(), 2);
+	EXPECT_EQ(result.positional_parameters.size(), 2);
+	EXPECT_EQ(result.options['o'], "file");
+	EXPECT_EQ(result.options['i'], "file");
+	EXPECT_EQ(result.positional_parameters[0], "+test");
+	EXPECT_EQ(result.positional_parameters[1], "-test");
 }

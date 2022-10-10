@@ -82,6 +82,12 @@ std::string query_builder::make_create_query(bool if_not_exists) const
 		sink += field.name;
 		sink += ' ';
 		sink += field.type;
+
+		using enum table_field_properties;
+		if ((field.properies & primary_key) == primary_key)
+			sink += " primary key";
+		if ((field.properies & auto_increment) == auto_increment)
+			sink += " autoincrement";
 	};
 
 	std::string result = "create table ";
@@ -89,7 +95,6 @@ std::string query_builder::make_create_query(bool if_not_exists) const
 		result += "if not exists ";
 	result += _table.name;
 	result += '(';
-	result += "id integer primary key autoincrement,";
 	result += join(_table.fields, append_field);
 	result += ')';
 	return result;

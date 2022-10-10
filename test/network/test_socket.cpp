@@ -2,6 +2,4 @@
 
 #include <network/tcp_socket.h>
 
-void test_socket()
-{
-}
+// TODO: this test requires external tools

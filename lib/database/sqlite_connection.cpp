@@ -11,6 +11,11 @@ sqlite_connection::sqlite_connection(const std::string& path)
 
 sqlite_connection::~sqlite_connection()
 {
+	close();
+}
+
+void sqlite_connection::close()
+{
 	sqlite3_close( _db );
 }
 

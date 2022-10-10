@@ -17,6 +17,11 @@ public:
 	sqlite_connection& operator=(const sqlite_connection& other) = delete;
 
 	/*!
+	 * \brief Close the database.
+	 */
+	void close();
+
+	/*!
 	 * \brief Execute an SQL query.
 	 * \param query String containing the SQL query.
 	 * \note Supports only single statement queries.

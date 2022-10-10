@@ -56,10 +56,13 @@ void create_schema(const std::string& path_to_db)
 {
 	sqlite_connection db(path_to_db);
 
+	using enum table_field_properties;
+
 	query_builder builder(
 		{
 			.name = "employees",
 			.fields = {
+				{"id", "integer", primary_key|auto_increment },
 				{"firstname", "text"},
 				{"lastname", "text"},
 				{"address", "text"},
