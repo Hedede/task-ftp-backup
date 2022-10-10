@@ -57,7 +57,12 @@ void create_schema(const std::string& path_to_db)
 	query_builder builder(
 		{
 			.name = "employees",
-			.fields = { "firstname", "lastname", "address", "phone" },
+			.fields = {
+				{"firstname", "text"},
+				{"lastname", "text"},
+				{"address", "text"},
+				{"phone", "text"},
+			},
 		}
 	);
 

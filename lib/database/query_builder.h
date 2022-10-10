@@ -3,9 +3,14 @@
 #include <string>
 #include <vector>
 
+struct table_field {
+	std::string name;
+	std::string type;
+};
+
 struct table_description {
 	std::string name;
-	std::vector<std::string> fields;
+	std::vector<table_field> fields;
 };
 
 class query_builder
