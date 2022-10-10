@@ -53,12 +53,20 @@ static const auto append_field_name = [] (auto& sink, const table_field& field) 
 	sink += field.name;
 };
 
+static std::vector<table_field> remove_auto_increment_fields(std::vector<table_field> fields)
+{
+	using enum table_field_properties;
+	auto new_end = std::remove_if(fields.begin(), fields.end(), [](const table_field& field) { return (field.properies & auto_increment) == auto_increment; });
+	fields.erase(new_end, fields.end());
+	return fields;
+}
+
 query_builder::insert_query::operator std::string() const
 {
 	std::string result = "insert into ";
 	result += _table.name;
 	result += '(';
-	result += join(_table.fields, append_field_name);
+	result += join(remove_auto_increment_fields(_table.fields), append_field_name);
 	result += ')';
 	result += " values ";
 	result += _values;

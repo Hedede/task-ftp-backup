@@ -20,13 +20,13 @@ protected:
 TEST_F(QueryBuilderTest, test_simple_insert)
 {
 	std::string str = builder.make_insert_query()
-		.add_row({"1", "a1", "a2"})
-		.add_row({"2", "b1", "b2"});
+		.add_row({"a1", "a2"})
+		.add_row({"b1", "b2"});
 
 	// Remove case and scapes to account for variances in output
 	tolower(remove_spaces(str));
 
-	EXPECT_EQ( str, "insertintotable(id,field1,field2)values('1','a1','a2'),('2','b1','b2')");
+	EXPECT_EQ( str, "insertintotable(field1,field2)values('a1','a2'),('b1','b2')");
 
 }
 

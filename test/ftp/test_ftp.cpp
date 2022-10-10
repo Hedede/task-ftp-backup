@@ -1,5 +1,3 @@
-#pragma once
-
 #include <filesystem>
 
 #include "ftp/ftp_client.h"
