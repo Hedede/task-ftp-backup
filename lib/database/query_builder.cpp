@@ -1,5 +1,7 @@
 #include "query_builder.h"
 
+#include <algorithm>
+
 template <typename T, typename Add>
 std::string join(const std::vector<T>& vec, Add&& add, char delimiter = ',')
 {
