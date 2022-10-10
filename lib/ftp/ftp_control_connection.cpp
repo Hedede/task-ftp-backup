@@ -35,28 +35,32 @@ void ftp_control_connection::send_command(std::string_view command, std::string_
 	}
 	if (!message.ends_with("\r\n"))
 		message += "\r\n";
+#ifdef FTP_DEBUG
+	std::cout << "> " << message << std::endl;
+#endif
 	_socket.send(message);
 }
 
 ftp_control_connection::response ftp_control_connection::receive_response()
 {
-	const auto msg = _socket.receive();
+	const auto message = _socket.receive();
 
+// TODO: add command line option for verbose output
 #ifdef FTP_DEBUG
-	std::cout << msg << std::endl;
+	std::cout << "< " << message << std::endl;
 #endif
 
 	//Response alawys starts with a result code
-	if (msg.size() < 3)
-		throw_error("Response is too short: " + std::string(msg));
+	if (message.size() < 3)
+		throw_error("Response is too short: " + std::string(message));
 
-	const auto code = to_int(msg.substr(0, 3));
+	const auto code = to_int(message.substr(0, 3));
 	if (!code)
-		throw_error("Incorrect response: " + std::string(msg));
+		throw_error("Incorrect response: " + std::string(message));
 
 	return {
 		.code = *code,
-		.text = std::string(msg.substr(4))
+		.text = std::string(message.substr(4))
 	};
 }
 

@@ -58,6 +58,8 @@ The code was tested with the following dependencies. It might work with earlier 
 Testing
 -------
 
-Test suite requires local FTP server running on a default port.
+Test suite (ftp-backup-test) requires local FTP server running on a default port.
 Guest (anonymous) connections must be allowed.
 FTP server must be configured with a root in C:/ftp (Windows) or '/tmp/ftp' (Linux).
+
+The FTP_DEBUG macro can be used for troubleshooting.
