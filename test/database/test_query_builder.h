@@ -15,7 +15,7 @@ bool test_query_builder()
 {
 	query_builder builder{{
 		.name = "table",
-		.fields = { "id", "field1", "field2" }
+		.fields = { {"id"}, {"field1"}, {"field2"} }
 	}};
 
 	std::string str = builder.make_insert_query()

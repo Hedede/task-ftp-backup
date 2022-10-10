@@ -6,12 +6,14 @@
 
 #include "database/data_generator.h"
 #include "database/sqlite_connection.h"
+#include "database/sqlite_dump.h"
 #include "database/sqlite_query.h"
 #include "database/query_builder.h"
 
 #include <chrono>
 #include <stdexcept>
 #include <filesystem>
+#include <fstream>
 
 std::string make_insert(const query_builder& builder)
 {
@@ -88,6 +90,17 @@ static std::string make_timestamp()
 	return buf.data();
 }
 
+static void dump_database_sql(const std::string& path_to_db, const std::string& output_path)
+{
+	sqlite_dump dump(path_to_db);
+	const auto sql = dump.make_sql_dump();
+
+	std::ofstream of(output_path);
+	of.write(sql.data(), sql.size());
+	if (of.bad())
+		throw std::runtime_error("Could not write sql dump");
+}
+
 std::string make_dump(const std::string& path_to_db)
 {
 	const std::filesystem::path path = path_to_db;
@@ -96,9 +109,7 @@ std::string make_dump(const std::string& path_to_db)
 
 	auto output_path = fmt::format("{}_{}.sql", path.filename().string(), make_timestamp());
 
-	const auto cmd = fmt::format(R"(sqlite3 '{}' .dump > '{}')", path_to_db, output_path);
-
-	system(cmd.data());
+	dump_database_sql(path_to_db, output_path);
 
 	return output_path;
 }

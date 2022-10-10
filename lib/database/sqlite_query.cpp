@@ -70,10 +70,19 @@ sqlite_query_data sqlite_query::data(int index) const
 {
 	if (index < 0)
 		return {};
-	const auto column_count = sqlite3_column_count(_stmt);
-	if (index < column_count)
+	if (index < column_count())
 		return sqlite_query_data{ _stmt, index };
 	return {};
+}
+
+std::string sqlite_query::column(int index) const
+{
+	return sqlite3_column_name(_stmt, index);
+}
+
+int sqlite_query::column_count() const
+{
+	return sqlite3_column_count(_stmt);
 }
 
 // -----------------------------------------------------------------
@@ -93,7 +102,7 @@ std::string sqlite_query_data::to_string() const
 	const auto string = sqlite3_column_text( _stmt, _index );
 	// unsigned char -> char aliasing is allowed, so
 	// use reinterpret_cast here to avoid manually copying the data
-	return reinterpret_cast<const char*>(string);
+	return string ? reinterpret_cast<const char*>(string) : "";
 }
 
 int sqlite_query_data::to_int() const
@@ -104,5 +113,10 @@ int sqlite_query_data::to_int() const
 bool sqlite_query_data::to_bool() const
 {
 	return static_cast<bool>( to_int() );
+}
+
+bool sqlite_query_data::is_null() const
+{
+	return sqlite3_column_type( _stmt, _index ) == SQLITE_NULL;
 }
 

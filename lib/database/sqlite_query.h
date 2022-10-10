@@ -27,6 +27,10 @@ public:
 
 	sqlite_query_data data(int index) const;
 
+	std::string column(int index) const;
+
+	int column_count() const;
+
 	/*!
 	 * \brief Retrieve description of the last error.
 	 * \return Last error description. Always zero-terminated.
@@ -54,6 +58,8 @@ public:
 	std::string to_string() const;
 	int to_int() const;
 	bool to_bool() const;
+
+	bool is_null() const;
 
 private:
 	friend sqlite_query;

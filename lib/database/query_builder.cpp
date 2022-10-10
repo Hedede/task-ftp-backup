@@ -42,7 +42,7 @@ auto query_builder::insert_query::add_row(const std::vector<std::string>& fields
 	};
 
 	if (!_values.empty())
-		_values.push_back(',');
+		_values += ",\n";
 	_values += '(';
 	_values += join(fields, add);
 	_values += ')';

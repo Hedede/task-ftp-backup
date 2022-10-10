@@ -10,6 +10,8 @@ add_library(ftp-backup-lib STATIC
 	database/sqlite_connection.cpp
 	database/sqlite_query.h
 	database/sqlite_query.cpp
+	database/sqlite_dump.h
+	database/sqlite_dump.cpp
 	database/data_generator.h
 	database/data_generator.cpp
 	database/query_builder.h
