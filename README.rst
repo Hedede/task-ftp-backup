@@ -39,5 +39,6 @@ Prerequisites
 
 The code was tested with the following dependencies. It might work with earlier versions, however, that is not guaranteed.
 
-* SQLite 3.39.4
 * Visual Studio 2022
+* SQLite 3.39.4 (included in the Visual Studio solution)
+* GTest 1.8.1 (included as a NuGet package)

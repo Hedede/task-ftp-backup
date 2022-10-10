@@ -83,14 +83,18 @@ void create_schema(const std::string& path_to_db)
 
 static std::string make_timestamp()
 {
+#ifdef _MSC_VER
+	auto const time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+	return std::format("{:%Y%m%d%H%M%S}", time);
+#else
 	//TODO: not supported by GCC/clang yet...
-	//auto const time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
 	std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
 	std::string buf(30, '\0');
 	std::strftime(&buf[0], buf.size(), "%Y%m%d%H%M%S", std::localtime(&now));
 	// get rid of extra \0s
 	return buf.data();
+#endif
 }
 
 static void dump_database_sql(const std::string& path_to_db, const std::string& output_path)

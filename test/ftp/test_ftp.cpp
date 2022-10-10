@@ -12,7 +12,7 @@
 
 TEST(FtpTest, test_send)
 {
-#ifdef _WIN32
+#if 0
 	if (!std::filesystem::is_directory("./ftp"))
 		GTEST_SKIP();
 #endif
@@ -23,7 +23,7 @@ TEST(FtpTest, test_send)
 	});
 
 #ifdef _WIN32
-	auto path = "./ftp/dump1.txt";
+	auto path = "C:/ftp/dump1.txt";
 #else
 	auto path = "/tmp/ftp/dump1.txt";
 #endif

@@ -12,7 +12,7 @@ std::string make_output_path(const std::string& input_file, const std::string& o
 {
 	std::filesystem::path input_path(input_file);
 	std::filesystem::path directory_path(output_dir);
-	return directory_path / input_path.filename();
+	return (directory_path / input_path.filename()).string();
 }
 
 int main(int argc, char** argv)
