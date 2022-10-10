@@ -2,6 +2,7 @@ find_package(GTest REQUIRED)
 
 add_executable(ftp-backup-test
 	utility/test_cmd_parser.cpp
+	utility/test_string_utils.cpp
 	network/test_socket.cpp
 	database/test_query_builder.cpp
 	database/test_sqlite.cpp

@@ -6,13 +6,13 @@
 data_generator::data_generator(const std::vector<data_field>& fields)
 	: _fields(fields)
 {
-	// srand(time(nullptr));
+	// TODO: add random_number_generator class for unit testing
+	// TODO: replace rand() with random_number_generator
+	srand(time(nullptr));
 }
 
 std::vector<std::string> data_generator::generate_row()
 {
-	// TODO: add random_number_generator for unit testing
-
 	std::vector<std::string> result;
 	for (const auto& field : _fields)
 	{

@@ -20,7 +20,6 @@ inline table_field_properties operator&(table_field_properties lhs, table_field_
 	return table_field_properties(unsigned(lhs)&unsigned(rhs));
 }
 
-
 struct table_field {
 	std::string name;
 	std::string type;
@@ -32,6 +31,9 @@ struct table_description {
 	std::vector<table_field> fields;
 };
 
+/*!
+ * \brief Builds SQL queries based on the table description
+ */
 class query_builder
 {
 public:
@@ -43,6 +45,9 @@ public:
 	query_builder(const query_builder& other) = default;
 	query_builder& operator=(const query_builder& other) = default;
 
+	/*!
+	 * \brief Helper class that allows to build an insert query incrementally row by row.
+	 */
 	class insert_query {
 	public:
 		insert_query& add_row(const std::vector<std::string>& fields);
@@ -61,7 +66,7 @@ public:
 		std::string _values;
 	};
 
-	// TODO: add "columns" parameters to insert only specified columns
+	// TODO: add "columns" parameters to explicitly set selected/inserted columns
 
 	insert_query make_insert_query() const { return insert_query(_table); }
 

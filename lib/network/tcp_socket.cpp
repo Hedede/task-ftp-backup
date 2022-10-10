@@ -63,9 +63,11 @@ static addrinfo_ptr get_addrinfo(const std::string& address, const std::string& 
 	struct addrinfo* addr = nullptr;
 	auto ret = getaddrinfo(address.data(), port.data(), &hints, &addr);
 	if (addr == nullptr || ret < 0) {
+		// TODO: differentiate between invalid_argument and runtime_error
 		using namespace std::string_literals;
 		throw std::runtime_error("get_addrinfo: "s +
 #ifdef _WIN32
+			// TODO: use wchar
 			gai_strerrorA(ret)
 #else
 			gai_strerror(ret)

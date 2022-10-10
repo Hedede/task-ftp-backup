@@ -19,6 +19,7 @@ public:
 	std::vector<db_object> get_db_objects();
 
 	std::string make_table_sql_dump(std::string_view table_name);
+
 	std::string make_sql_dump();
 
 private:

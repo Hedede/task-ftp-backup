@@ -6,6 +6,9 @@
 
 class sqlite_query;
 
+/*!
+ * \brief Wrapper for a SQLite connection.
+ */
 class sqlite_connection
 {
 public:

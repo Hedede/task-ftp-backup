@@ -1,31 +1,6 @@
 #include "query_builder.h"
 
-#include <algorithm>
-
-template <typename T, typename Add>
-std::string join(const std::vector<T>& vec, Add&& add, char delimiter = ',')
-{
-	auto begin = vec.cbegin();
-	auto end   = vec.cend();
-
-	std::string sink;
-	if (begin == end)
-		return sink;
-
-	add(sink, *begin++);
-	while (begin != end) {
-		sink += delimiter;
-		add(sink, *begin++);
-	}
-
-	return sink;
-}
-
-std::string join(const std::vector<std::string>& vec, char delimiter = ',')
-{
-	return join(vec, [] (auto& sink, const auto& value) { sink += value; });
-}
-
+#include "utility/string_utils.h"
 
 auto query_builder::insert_query::add_row(const std::vector<std::string>& fields) -> insert_query&
 {

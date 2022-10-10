@@ -31,6 +31,18 @@ The code is split into several modules:
 * network - network connection utilities,
 * ftp - simple FTP client implementation.
 
+Further development
+^^^^^^^^^^^^^^^^^^^
+
+There are several areas to improve.
+
+* First off, better error reporting. Need to add more exception types with better error messages.
+* Unicode support on Windows.
+* Add more test, including integration tests. Currently only GTest is used, but external
+  tools (such as netcat) are required to properly test everything.
+* Implement more FTP features. Handle more unexpected situations.
+* More things marked as TODO in the code.
+
 Building
 --------
 
@@ -42,3 +54,10 @@ The code was tested with the following dependencies. It might work with earlier 
 * Visual Studio 2022
 * SQLite 3.39.4 (included in the Visual Studio solution)
 * GTest 1.8.1 (included as a NuGet package)
+
+Testing
+-------
+
+Test suite requires local FTP server running on a default port.
+Guest (anonymous) connections must be allowed.
+FTP server must be configured with a root in C:/ftp (Windows) or '/tmp/ftp' (Linux).

@@ -47,6 +47,7 @@
     <ClCompile Include="ftp\test_ftp.cpp" />
     <ClCompile Include="network\test_socket.cpp" />
     <ClCompile Include="utility\test_cmd_parser.cpp" />
+    <ClCompile Include="utility\test_string_utils.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
