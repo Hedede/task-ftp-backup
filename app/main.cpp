@@ -29,7 +29,12 @@ int main(int argc, char** argv)
 			.password = options.password
 		});
 
-		ftp.send_file(make_output_path(path_to_dump, options.output_dir), path_to_dump);
+		const auto output_path = make_output_path(path_to_dump, options.output_dir);
+
+		ftp.send_file(output_path, path_to_dump);
+
+		std::cout << path_to_dump << " succesfully uploaded to " << options.host
+		          << ":" << output_path << '\n';
 
 	} catch (std::exception& ex) {
 		std::cerr << "error: " << ex.what() << '\n';
